@@ -1585,6 +1585,8 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+<<<<<<< HEAD
+=======
 --- !u!1 &1244294592
 GameObject:
   m_ObjectHideFlags: 0
@@ -1711,6 +1713,7 @@ Transform:
   m_Father: {fileID: 1756959030}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+>>>>>>> Two_Major_Here
 --- !u!4 &1305677944 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5859474714208273636, guid: 1027c3bda45caa4439d5a974bbd3b3fa,
