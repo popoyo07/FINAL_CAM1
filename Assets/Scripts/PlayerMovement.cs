@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class PlayerMovement : MonoBehaviour
 {
     public float turnSpeed = 20f;
-    public float moveSpeed = 1f;
+
+    // Boost setting
+    public float moveSpeed;
     public bool running = false;
     public Image BoostBar;
     public float Boost, MaxBoost;
     public float RunCost;
     public float ChargeRate;
-
     private Coroutine recharge;
+
 
     AudioSource m_AudioSource;
     Animator m_Animator;
@@ -27,6 +30,9 @@ public class PlayerMovement : MonoBehaviour
         m_Animator = GetComponent<Animator>();
         m_Rigidbody = GetComponent<Rigidbody>();
         m_AudioSource = GetComponent<AudioSource>();
+        // Initialize Boost system
+        if (MaxBoost <= 0) MaxBoost = 100f; // Default value if not set
+        Boost = MaxBoost;
     }
 
     // Update is called once per frame
@@ -39,29 +45,35 @@ public class PlayerMovement : MonoBehaviour
         m_Movement.Normalize();
 
         // Check for spacebar press and adjust moveSpeed
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) && Boost > 0)
         {
             running = true;
-            moveSpeed = 5f;
-            Boost -= RunCost * Time.deltaTime;
-
-            if (Boost < 0) Boost = 0;
-
-            BoostBar.fillAmount = Boost / MaxBoost;
-
-            // Stop recharging if running
-            if (recharge != null)
-            {
-                StopCoroutine(recharge);
-                recharge = null;
-            }
+            //Debug.Log("pressing space");
         }
         else
         {
             running = false;
-            moveSpeed = 1f;
+        }
 
-            // Start recharge if not already running
+        if (running)
+        {
+            if (recharge != null)
+            {
+                StopCoroutine(recharge); // Stop recharge if running
+                recharge = null;
+            }
+
+            moveSpeed = 1.5f;
+            //Debug.Log("running");
+
+            Boost -= RunCost * Time.deltaTime;
+            Boost = Mathf.Clamp(Boost, 0, MaxBoost);
+            BoostBar.fillAmount = Boost / MaxBoost;
+        }
+        else
+        {
+            moveSpeed = 0f;
+            // Start recharging Boost if not already recharging
             if (recharge == null)
             {
                 recharge = StartCoroutine(RechargeBoost());
@@ -72,13 +84,11 @@ public class PlayerMovement : MonoBehaviour
         Vector3 movement = m_Movement * moveSpeed * Time.deltaTime;
         m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
 
-        // Determine if the player is walking
         bool hasHorizontalInput = !Mathf.Approximately(horizontal, 0f);
         bool hasVerticalInput = !Mathf.Approximately(vertical, 0f);
         bool isWalking = hasHorizontalInput || hasVerticalInput;
         m_Animator.SetBool("IsWalking", isWalking);
 
-        // Handle audio playback
         if (isWalking)
         {
             if (!m_AudioSource.isPlaying)
@@ -91,11 +101,9 @@ public class PlayerMovement : MonoBehaviour
             m_AudioSource.Stop();
         }
 
-        // Rotate towards movement direction
         Vector3 desiredForward = Vector3.RotateTowards(transform.forward, m_Movement, turnSpeed * Time.deltaTime, 0f);
         m_Rotation = Quaternion.LookRotation(desiredForward);
     }
-
     void OnAnimatorMove()
     {
         m_Rigidbody.MovePosition(m_Rigidbody.position + m_Movement * m_Animator.deltaPosition.magnitude);
@@ -104,19 +112,15 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator RechargeBoost()
     {
-        // Wait 1 second before starting recharge
         yield return new WaitForSeconds(1f);
-
-        // Gradually recharge Boost
         while (Boost < MaxBoost)
         {
-            Boost += ChargeRate * Time.deltaTime; // Recharge based on time
-            if (Boost > MaxBoost) Boost = MaxBoost; // Clamp Boost to MaxBoost
-            BoostBar.fillAmount = Boost / MaxBoost; // Update BoostBar
-            yield return null; // Wait for the next frame
+            Boost += ChargeRate * Time.deltaTime; // Recharge boost slowly
+            Boost = Mathf.Clamp(Boost, 0, MaxBoost);
+            BoostBar.fillAmount = Boost / MaxBoost;
+            yield return null; // Wait until the next frame
         }
 
-        recharge = null; // Reset the coroutine reference when finished
+        recharge = null; // Mark coroutine as finished
     }
-
 }
