@@ -6206,6 +6206,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3816843300345247195, guid: 1027c3bda45caa4439d5a974bbd3b3fa,
         type: 3}
+      propertyPath: turnSpeed
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 3816843300345247195, guid: 1027c3bda45caa4439d5a974bbd3b3fa,
+        type: 3}
       propertyPath: ChargeRate
       value: 5
       objectReference: {fileID: 0}
