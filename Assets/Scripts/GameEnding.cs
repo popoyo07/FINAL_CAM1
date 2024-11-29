@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class GameEnding : MonoBehaviour
 {
@@ -12,11 +14,20 @@ public class GameEnding : MonoBehaviour
     public CanvasGroup caughtBackgroundImageCanvasGroup;
     public AudioSource exitAudio;
     public AudioSource caughtAudio;
+    public float timeRemaining = 120;
+    public bool timerIsRunning = false;
+
+    public TextMeshProUGUI timeText;
 
     bool m_HasAudioPlayed;
     bool m_IsPlayerAtExit;
     bool m_IsPlayerCaught;
     float m_Timer;
+
+      private void Start()
+    {
+        timerIsRunning = true;
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -31,19 +42,41 @@ public class GameEnding : MonoBehaviour
         m_IsPlayerCaught = true;
     }
 
-    void Update()
+    void Update ()
     {
+        if (timerIsRunning)
+                {    if (timeRemaining > 0)
+                    {
+                        timeRemaining -= Time.deltaTime;
+                        DisplayTime(timeRemaining);
+                    }
+                    else{
+                        timeRemaining = 0;
+                        timerIsRunning = false;
+                        timeText.text = "";
+                    }
+        } 
+
         if (m_IsPlayerAtExit)
         {
-            EndLevel(exitBackgroundImageCanvasGroup, false, exitAudio);
+            EndLevel (exitBackgroundImageCanvasGroup, false, exitAudio);
+            timeRemaining = 0;
+            timerIsRunning = false; 
+            timeText.text = "";
         }
         else if (m_IsPlayerCaught)
         {
-            EndLevel(caughtBackgroundImageCanvasGroup, true, caughtAudio);
+            EndLevel (caughtBackgroundImageCanvasGroup, true, caughtAudio);
+            timeRemaining = 0;
+            timerIsRunning = false;
+            timeText.text = "";
+        } 
+        else if (timerIsRunning == false)
+        {
+            EndLevel (caughtBackgroundImageCanvasGroup, true, caughtAudio);
         }
+        
     }
-
-
 
     void EndLevel(CanvasGroup imageCanvasGroup, bool doRestart, AudioSource audioSource)
     {
@@ -67,5 +100,15 @@ public class GameEnding : MonoBehaviour
                 Application.Quit();
             }
         }
+    }
+
+          void DisplayTime(float timeToDisplay)
+    {
+        timeToDisplay += 1;
+
+        float minutes = Mathf.FloorToInt(timeRemaining / 60);
+        float seconds = Mathf.FloorToInt(timeRemaining % 60);
+
+        timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 }
