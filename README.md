@@ -8,7 +8,7 @@ Miguel Pineda
 Sze Hiu Yeung
 
 Modifcations:
-Major:Speed boost, New Enemy type, Timer
+Major:Speed boost, New Enemy type, Timer, Enemy movement randomization
 Minor:
 
 Repository link:
