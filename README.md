@@ -8,7 +8,9 @@ Miguel Pineda,
 Sze Hiu Yeung
 
 Modifications:
+
 Major: Speed boost, New Enemy type, Timer
+
 Minor: Enemy movement randomization
 
 Video link:
