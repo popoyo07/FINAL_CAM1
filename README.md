@@ -9,8 +9,10 @@ Sze Hiu Yeung
 
 Modifications:
 
-Major: Speed boost, New Enemy type, Timer
+Major: New Enemy type, Timer
 
-Minor: Enemy movement randomization
+Minor: Enemy movement randomization, Speed boost
+
+Repository link: https://github.com/popoyo07/FINAL_CAM1.git
 
 Video link: https://youtu.be/8sp7bO5xO7k
