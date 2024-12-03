@@ -13,4 +13,4 @@ Major: Speed boost, New Enemy type, Timer
 
 Minor: Enemy movement randomization
 
-Video link:
+Video link: https://youtu.be/8sp7bO5xO7k
