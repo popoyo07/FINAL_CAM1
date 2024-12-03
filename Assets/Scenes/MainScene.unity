@@ -196,6 +196,7 @@ MonoBehaviour:
   caughtAudio: {fileID: 535477085}
   timeRemaining: 60
   timerIsRunning: 0
+  BoostBar: {fileID: 1478592439}
   timeText: {fileID: 2098421500}
 --- !u!65 &83341376
 BoxCollider:
@@ -2282,6 +2283,12 @@ Transform:
   m_Father: {fileID: 1756959030}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1478592439 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1781606186879481481, guid: abc18753abf2b9546b69b013a07ac5cb,
+    type: 3}
+  m_PrefabInstance: {fileID: 132430827}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1498604849
 GameObject:
   m_ObjectHideFlags: 0

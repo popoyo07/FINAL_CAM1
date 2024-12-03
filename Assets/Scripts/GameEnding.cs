@@ -16,6 +16,7 @@ public class GameEnding : MonoBehaviour
     public AudioSource caughtAudio;
     public float timeRemaining = 120;
     public bool timerIsRunning = false;
+    public GameObject BoostBar;
 
     public TextMeshProUGUI timeText;
 
@@ -84,6 +85,11 @@ public class GameEnding : MonoBehaviour
         {
             audioSource.Play();
             m_HasAudioPlayed = true;
+        }
+
+        if (BoostBar != null)
+        {
+            BoostBar.SetActive(false);
         }
 
         m_Timer += Time.deltaTime;
